@@ -130,7 +130,7 @@ yuros_crypto_keys() {
 
 
 yuros_crypto_devs() {
-	volume="sda2"
+	volume="sda6"
 	mapper="crypt_devs"
 	usrdir="$HOME/.local/cryptapp"
 	valdir=( "webbase" "android" "iphone" "linux" "windows" )
@@ -188,7 +188,7 @@ yuros_crypto_data() {
 
 
 yuros_crypto_game() {
-	volume="sda2"
+	volume=""
 	mapper="crypt_game"
 	usrdir="$HOME/.local/cryptjoy"
 	valdir=( "steam" "ubisoft" "epic" "ninwii" "switch" "ps2")
@@ -216,7 +216,7 @@ yuros_crypto_game() {
 
 yuros_crypto_virt() {
 
-	volume="sda2"
+	volume="sda8"
 	mapper="crypt_virt"
 	usrdir="$HOME/.local/cryptvir"
 	valdir=( "testing" "production" "proto" "yuvirt" )
