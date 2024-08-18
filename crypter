@@ -159,7 +159,7 @@ yuros_crypto_devs() {
 
 
 yuros_crypto_data() {
-	volume="sda2"
+	volume="sda5"
 	mapper="crypt_data"
 	usrdir="$HOME/.local/cryptdat"
 	valdir=( "private" "family" "lectore" "lektorid" "ropeaccess" "lektorco" "datamaster" "uinjkt" )
