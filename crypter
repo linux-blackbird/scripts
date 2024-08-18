@@ -252,7 +252,7 @@ yuros_crypto_pods() {
 yuros_crypto_dock() {
 
 	volume="sda2"
-	mapper="crypt_dock"
+	mapper="crypt_cont"
 	usrdir="/var/lib/docker"
 	valdir=( "containers" "images" "image" "volumes" )
 
