@@ -250,38 +250,40 @@ yuros_crypto_dock() {
 		sleep 2 &&
 		sudo rm -fr /run/media/$USER/docker
 	else
-		sudo cryptsetup luksOpen /dev/$volume $mapper &&
-		sleep 2 &&
+		
+      		sudo cryptsetup luksOpen /dev/$volume $mapper &&
+        	sleep 2 &&
+        	if [[ ! -d /run/media/$USER ]]; then
+          		sudo mkdir /run/media/$USER
+        	fi
+      		sleep 2 &&
+        	if [[ ! -d /run/media/$USER/docker/ ]]; then
+          		sudo mkdir /run/media/$USER/docker
+        	fi
+      		sleep 2 &&
+        	if [[ $(mountpoint -qd /run/media/$USER/docker) ]]; then
+          		sudo mount /dev/mapper/$mapper /run/media/$USER/docker
+        	fi
 
-		if [[ ! -d /run/media/$USER ]];then 
-			sudo mkdir /run/media/$USER
-		fi
-		sleep 2 &&
+      		yuros_crypto_desc "Decrypt file crypto volume" &&
+        	if [[ ! -d /var/lib/docker ]]; then
+          		echo 'Docker directory not found, please check your docker installation'
+          		exit
+        	fi
 
-		if [[ ! -d /run/media/$USER/docker/ ]];then 
-			sudo mkdir /run/media/$USER/docker
-		fi
-		sleep 2 &&
-
-		sudo mount /dev/mapper/$mapper /run/media/$USER/docker &&
-
-		yuros_crypto_desc "Decrypt file crypto volume" &&
-		for dir in "${valdir[@]}"
+      		for dir in "${valdir[@]}"; 
 		do
-			if [[ ! -d /run/media/$USER/docker/$dir ]]; then
-				sudo mkdir /run/media/$USER/docker/$dir
-			fi
-
-			if [[ -d /run/media/$USER/docker/$dir ]];then
-				sudo mount --bind /run/media/$USER/docker/$dir /var/lib/docker/$dir &&
-				yuros_crypto_stat "$dir directory is ready"
-			else
-				yuros_crypto_stat "$dir directory not found"
-			fi
-		done
- 		sudo systemctl start docker &&
-		yuros_crypto_accs $usrdir $mapper
-		yuros_crypto_stop "Docker crypto directory ready"
+        		if [[ ! $(mountpoint -qd /var/lib/docker/$dir) ]]; then
+          			sudo mount --bind /run/media/$USER/docker/$dir /var/lib/docker/$dir &&
+            			yuros_crypto_stat "$dir directory is mounted"
+        		else
+          			yuros_crypto_stat "$dir directory is ready"
+        		fi
+      		done
+      		sudo systemctl start docker &&
+        	sleep 1
+      		yuros_crypto_accs $usrdir $mapper &&
+        	yuros_crypto_stop "Docker crypto directory ready"
 	fi
 }
 
