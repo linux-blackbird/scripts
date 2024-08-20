@@ -96,7 +96,7 @@ yuros_crypto_keys() {
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
 	yuros_cryto_head &&
-	if [[ $(mountpoint -qd $usrdir) ]]; then
+	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper &&
 		rm -fr /home/$USER/.ssh
 	else
@@ -127,7 +127,7 @@ yuros_crypto_data() {
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
 	yuros_cryto_head &&
-	if [[ $(mountpoint -qd $usrdir) ]]; then
+	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper
 		rm -fr ~/datum
 	else
@@ -154,7 +154,7 @@ yuros_crypto_devs() {
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
 	yuros_cryto_head &&
-	if [[ $(mountpoint -qd $usrdir) ]]; then
+	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper
 		rm -fr ~/devel
 
@@ -185,7 +185,7 @@ yuros_crypto_virt() {
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
 	yuros_cryto_head &&
-	if [[ $(mountpoint -qd $usrdir) ]]; then
+	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper
 		rm -fr ~/vmhost
 	else
@@ -212,82 +212,97 @@ yuros_crypto_dock() {
 	volume="sda7"
 	mapper="crypt_cont"
 	usrdir="/var/lib/docker"
-	valdir=("containers" "images" "image" "volumes")
+	valdir=("containers" "image" "volumes")
 
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
-	yuros_cryto_head &&
-	if [[ $(mountpoint -qd /run/media/$USER/docker/) ]]; then
-		yuros_crypto_desc "Ecnrypt docker crypto volume" &&
-		sudo systemctl stop docker &&
-		yuros_crypto_stat "Disable docker service"
+	yuros_cryto_head
 
-		sudo systemctl stop docker.socket &&
+	if [[ $(sudo mountpoint -qd /run/media/$USER/docker/) ]]; then
+
+		yuros_crypto_desc "Ecnrypt docker crypto volume"
+
+		if [[ ! -z  $( sudo docker ps -q ) ]];then
+			sudo docker kill $(sudo docker ps -q ) > /dev/null 2>&1
+			yuros_crypto_stat "Terminate all docker activity"
+		fi
+		
+		sudo systemctl stop docker > /dev/null 2>&1
+		yuros_crypto_stat "Disable docker service"
+		sleep 1 &&
+
+		sudo systemctl stop docker.socket > /dev/null 2>&1
 		yuros_crypto_stat "Disable docker socket"
+		sleep 1 &&
 
 		for dir in "${valdir[@]}"; do
-			if [[ $(mountpoint -qd /var/lib/docker/$dir) ]]; then
-				sudo umount /var/lib/docker/$dir &&
-				sleep 1 &&
+			if [[ $(sudo mountpoint -qd /var/lib/docker/$dir) ]]; then
+				sudo umount -R /var/lib/docker/$dir 
+				sleep 1
 				yuros_crypto_stat "$dir docker is unmounted"
 			fi
 		done
 
-		sudo umount /run/media/$USER/docker &&
-		yuros_crypto_stat "Umount docker volume" &&
-		sleep 1 &&
+		sudo umount -R /run/media/$USER/docker
+		yuros_crypto_stat "Umount docker volume"
+		sleep 1
 
-		sudo cryptsetup luksClose /dev/mapper/$mapper &&
-		yuros_crypto_stat "Remove docker mapper" &&
-		sleep 2 &&
+		sudo cryptsetup luksClose /dev/mapper/$mapper
+		yuros_crypto_stat "Remove docker mapper"
+		sleep 1
 
-		sudo rm -fr /run/media/$USER/docker &&
-		yuros_crypto_stat "Cleanup user space" &&
-
+		sudo rm -fr /run/media/$USER/docker
+		yuros_crypto_stat "Cleanup user space"
 		yuros_crypto_stop "Docker crypto volume is encrypted"
+
 	else
 
 		sudo cryptsetup luksOpen /dev/$volume $mapper &&
-		sleep 2 &&
+		sleep 2
+		yuros_crypto_desc "Decrypt file crypto volume"
+		yuros_crypto_stat "Encrypted volume decrypted"
+
+
 		if [[ ! -d /run/media/$USER ]]; then
 			sudo mkdir /run/media/$USER
+			yuros_crypto_stat "Docker media user created"
 		fi
-		sleep 2 &&
-		if [[ ! -d /run/media/$USER/docker/ ]]; then
+		sleep 1
+
+		if [[ ! -d /run/media/$USER/docker ]]; then
 			sudo mkdir /run/media/$USER/docker
+			yuros_crypto_stat "Docker media sub directory created"
 		fi
-		sleep 2 &&
+		sleep 1
 
-		if [[ ! $(mountpoint -qd /run/media/$USER/docker) ]]; then
+		if [[ ! $(sudo mountpoint -qd /run/media/$USER/docker) ]]; then
 			sudo mount /dev/mapper/$mapper /run/media/$USER/docker
+			yuros_crypto_stat "Mount crypto volume to user media"
 		fi
-
-		yuros_crypto_desc "Decrypt file crypto volume" &&
 
 		if [[ ! -d /var/lib/docker ]]; then
 			echo 'Docker directory not found, please check your docker installation'
 			exit
 		fi
 
-		for dir in "${valdir[@]}"; 
-		do
-			if [[ ! -d /run/media/$USER/docker/$dir ]]; then
+		for dir in "${valdir[@]}"; do
+
+			if [[ ! -d /run/media/$USER/docker/$dir ]];then
 				sudo mkdir /run/media/$USER/docker/$dir
 			fi
-			if [[ ! -d /var/lib/docker/$dir ]]; then
-				sudo mkdir /var/lib/docker/$dir
-			fi
 
-			if [[ ! $(mountpoint -qd /var/lib/docker/$dir) ]]; then
-				sudo mount --bind /run/media/$USER/docker/$dir /var/lib/docker/$dir &&
-					yuros_crypto_stat "$dir directory is mounted"
+			if [[ ! $(sudo mountpoint -qd /var/lib/docker/$dir) ]]; then
+				sudo mount --bind /run/media/$USER/docker/$dir /var/lib/docker/$dir
+				yuros_crypto_stat "$dir directory is mounted"
 			else
 				yuros_crypto_stat "$dir directory is ready"
 			fi
 		done
+
 		sudo systemctl start docker &&
+		yuros_crypto_stat "Docker service is ready"
 		sleep 1
-		yuros_crypto_accs $usrdir $mapper &&
+
 		yuros_crypto_stop "Docker volume crypto directory ready"
 	fi
 }
@@ -301,7 +316,7 @@ yuros_crypto_game() {
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
 	yuros_cryto_head &&
-	if [[ $(mountpoint -qd $usrdir) ]]; then
+	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper
 	else
 		yuros_crypto_udir $volume $mapper $usrdir &&
