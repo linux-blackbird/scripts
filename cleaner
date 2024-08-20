@@ -1,0 +1,13 @@
+#!/bin/bash
+
+yes y | sudo pacman -Scc &&
+echo '  --> pacman package clean'
+if [[ ! -z $(pacman -Qtdq) ]];then
+    yes y | sudo pacman -R $(pacman -Qtdq) 
+    echo '  --> unused package clean'
+fi
+
+yes y | yay -Scc &&
+echo '  --> pacman cache clean'
+yes y | rm -fr $HOME/.cache/*
+echo '  --> user cache clean'
