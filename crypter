@@ -173,16 +173,6 @@ yuros_crypto_devs() {
 		yuros_crypto_stop "File crypto directory ready"
 
 	fi
-
-	read -p "Do you want activate docker system ?(Y/n)  " ACTIVATE_DOCKER
-	if [[ $ACTIVATE_DOCKER == "Y" || $ACTIVATE_DOCKER == "y" ]];then
-		yuros_crypto_dock;
-	fi
-
-	read -p "Do you want activate virtualization system ?(Y/n)  " ACTIVATE_VIRT
-	if [[ $ACTIVATE_VIRT == "Y" || $ACTIVATE_VIRT == "y" ]];then
-		yuros_crypto_virt;
-	fi
 }
 
 yuros_crypto_virt() {
