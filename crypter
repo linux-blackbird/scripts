@@ -273,7 +273,7 @@ yuros_crypto_dock() {
 
       		for dir in "${valdir[@]}"; 
 		do
-			if [[ -d /var/lib/docker/$dir ]];then
+			if [[ ! -d /var/lib/docker/$dir ]];then
 				mkdir /var/lib/docker/$dir
 			fi
         		if [[ ! $(mountpoint -qd /var/lib/docker/$dir) ]]; then
