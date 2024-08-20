@@ -28,4 +28,4 @@ fi
 
 if [[ -z $XDG_CURRENT_DESKTOP ]];then
     Hyprland
-fi 
+fi
