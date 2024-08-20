@@ -232,6 +232,10 @@ yuros_crypto_dock() {
 	yuros_cryto_head && 
 	
 	if [[ $(mountpoint -qd /run/media/$USER/docker/) ]];then
+
+		sudo systemctl stop docker &&
+    		sudo systemctl stop docker.socket &&
+
 		for dir in "${valdir[@]}"
 		do
 			if [[  $(mountpoint -qd /var/lib/docker/$dir ) ]]; then
@@ -275,6 +279,7 @@ yuros_crypto_dock() {
 				yuros_crypto_stat "$dir directory not found"
 			fi
 		done
+ 		sudo systemctl start docker &&
 		yuros_crypto_accs $usrdir $mapper
 		yuros_crypto_stop "Docker crypto directory ready"
 	fi
