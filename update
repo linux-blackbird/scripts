@@ -8,7 +8,7 @@ echo '
 ---------------------------------------
 '
 
-read -p "Hello Mr Karim, Do you want update your system right now ? ( Y/n )" SCRORPIO_SYSTEM_UPDATE
+read -p "Hello Mr Karim, Do you want update your system right now ? ( Y/n ) " SCRORPIO_SYSTEM_UPDATE
 
 if [[ $SCRORPIO_SYSTEM_UPDATE == "Y" || $SCRORPIO_SYSTEM_UPDATE == "y" ]];then
     yes y | sudo pacman -S archlinux-keyring &&
