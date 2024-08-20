@@ -20,5 +20,10 @@ if [[ $SCRORPIO_SYSTEM_UPDATE == "Y" || $SCRORPIO_SYSTEM_UPDATE == "y" ]];then
     yes y | rm -fr $HOME/.cache/*
 fi
 
-exec ssh-agent bash &
-Hyprland 
+if [[ "$SSH_AUTH_SOCK" = "" ]]; then
+    eval $(ssh-agent -s)
+fi
+
+if [[ -z $XDG_CURRENT_DESKTOP ]];then
+    Hyprland
+fi 
