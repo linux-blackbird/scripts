@@ -1,0 +1,24 @@
+#!/bin/bash
+
+clear 
+echo '
+---------------------------------------
+    SCORPIO LINUX SYSTEM UPDATE
+    devel null@2024
+---------------------------------------
+'
+
+read -p "Hello Mr Karim, Do you want update your system right now ? ( Y/n )" SCRORPIO_SYSTEM_UPDATE
+
+if [[ $SCRORPIO_SYSTEM_UPDATE == "Y" || $SCRORPIO_SYSTEM_UPDATE == "y" ]];then
+    yes y | sudo pacman -S archlinux-keyring &&
+    yes y | sudo pacman -Syu &&
+    yes y | sudo pacman -Scc &&
+    yes y | sudo pacman -R $(pacman -Qtdq) &&
+    yes y | yay -Syu &&
+    yes y | yay -Scc 
+    yes y | rm -fr $HOME/.cache/*
+fi
+
+exec ssh-agent bash &
+Hyprland 
