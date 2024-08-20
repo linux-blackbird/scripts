@@ -14,9 +14,11 @@ if [[ $SCRORPIO_SYSTEM_UPDATE == "Y" || $SCRORPIO_SYSTEM_UPDATE == "y" ]];then
     yes y | sudo pacman -S archlinux-keyring &&
     yes y | sudo pacman -Syu &&
     yes y | sudo pacman -Scc &&
-    yes y | sudo pacman -R $(pacman -Qtdq) &&
+    if [[ ! -z $(pacman -Qtdq) ]];then
+        yes y | sudo pacman -R $(pacman -Qtdq) 
+    fi
     yes y | yay -Syu &&
-    yes y | yay -Scc 
+    yes y | yay -Scc &&
     yes y | rm -fr $HOME/.cache/*
 fi
 
