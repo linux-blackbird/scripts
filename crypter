@@ -261,7 +261,7 @@ yuros_crypto_dock() {
           		sudo mkdir /run/media/$USER/docker
         	fi
       		sleep 2 &&
-        	if [[ $(mountpoint -qd /run/media/$USER/docker) ]]; then
+        	if [[ ! $(mountpoint -qd /run/media/$USER/docker) ]]; then
           		sudo mount /dev/mapper/$mapper /run/media/$USER/docker
         	fi
 
@@ -273,6 +273,9 @@ yuros_crypto_dock() {
 
       		for dir in "${valdir[@]}"; 
 		do
+			if [[ -d /var/lib/docker/$dir ]];then
+				mkdir /var/lib/docker/$dir
+			fi
         		if [[ ! $(mountpoint -qd /var/lib/docker/$dir) ]]; then
           			sudo mount --bind /run/media/$USER/docker/$dir /var/lib/docker/$dir &&
             			yuros_crypto_stat "$dir directory is mounted"
