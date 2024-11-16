@@ -1,0 +1,170 @@
+#!/bin/bash
+
+yuros_netcon_head() {
+	clear
+	echo '
+
+    _   ________________________  _   __
+   / | / / ____/_  __/ ____/ __ \/ | / /
+  /  |/ / __/   / / / /   / / / /  |/ / 
+ / /|  / /___  / / / /___/ /_/ / /|  /  
+/_/ |_/_____/ /_/  \____/\____/_/ |_/   
+                                        
+
+Development by null@2024 - yuros network'
+}
+
+
+### PROC MODULE
+## cloudflare
+netcon_procs_start_cloudflare() {
+    sudo systemctl start warp-svc &&
+    sleep 1
+    echo '-> Cloudflare network is active'
+    warp-cli connect
+}
+
+
+netcon_procs_stops_cloudflare() {
+    warp-cli disconnect
+    sleep 1
+    sudo systemctl stop warp-svc
+    sleep 1
+    echo '-> Cloudflare network disabled'
+}
+
+
+## darknet
+netcon_procs_start_torchanel() {
+    #sudo systemctl start torc &&
+    #sleep 1
+    #warp-cli connect
+    echo '-> Union network is active'
+}
+
+
+netcon_procs_stops_torchanel() {
+    # warp-cli disconnect
+    # sleep 1
+    # sudo systemctl stop warp-svc
+    # sleep 1
+    echo '-> Union network disabled'
+}
+
+
+## tor with change country every 5 second
+netcon_procs_start_darkroute() {
+    echo ' Wireguard Tunnel  : Active'
+    sleep 1
+    echo ' Proxy Chain       : Active'
+    sleep 1
+    echo ' Cloudflare Tunnel : Active'
+    sleep 1
+    echo ' Tor Union Router  : Active'
+    echo '-------------------------------------'
+    sleep 1
+    echo ' Ghost Mode Started'
+    echo ' | '
+    echo '(1) Rebuild network hop and exit route'
+    echo ' | '
+    echo ' +--> reroute network to Ghana'
+    echo ' | '
+    sleep 5
+    sleep 5
+    echo '(2) Rebuild network hop and exit route'
+    echo ' | '
+    echo ' +--> reroute network to Egypt'
+    echo ' | '
+    sleep 5
+    echo '(3) Rebuild network hop and exit route'
+    echo ' | '
+    echo ' +--> reroute network to France'
+    echo ' | '
+    sleep 5
+    echo '(4) Rebuild network hop and exit route'
+    echo ' | '
+    echo ' +--> reroute network to Canada'
+    echo ' | '
+    sleep 5
+    echo '(5) Rebuild network hop and exit route'
+    echo ' | '
+    echo ' +--> reroute network to Mexico'
+    echo ' | '
+    sleep 5
+    echo '(6) Rebuild network hop and exit route'
+    echo ' | '
+    echo ' +--> reroute network to Bahamas'
+    echo ' | '
+    sleep 50
+
+}
+
+netcon_procs_stops_darkroute() {
+    echo 'Stop dark route'
+}
+
+
+
+
+netcon_standard() {
+    echo 'on standar mode'
+}
+
+netcon_onthreat() {
+    netcon_procs_start_cloudflare;
+}
+
+
+netcon_paranoid() {
+    echo 'on paranoid mode'
+}
+
+
+netcon_netghost() {
+    netcon_procs_start_darkroute
+}
+
+
+netcon_start() {
+    echo '-------------------------------'
+    echo 'Available mode'
+    echo '1. standard'
+    echo '2. onthreat'
+    echo '3. paranoid'
+    echo '4. netghost'
+    echo '--------------------------------'
+    read -p 'Select your mode: '  METHOD
+    echo '--------------------------------'
+    echo ''
+    if [[ $METHOD == 2 ]]; then
+        netcon_onthreat
+    elif [[ $METHOD = 3 ]]; then
+        netcon_paranoid
+    elif [[ $METHOD = 4 ]]; then
+        netcon_netghost
+    else
+        netcon_standard
+    fi
+    echo ''
+}
+
+
+netcon_stops() {
+    netcon_procs_stops_cloudflare
+}
+
+
+netcon() {
+
+    yuros_netcon_head
+    if [[ 'start' == $1  ]];then
+        netcon_start
+    elif [[ 'stop' == $1 ]];then
+        netcon_stops
+    else
+        echo 'Error -> parameter unknown'
+    fi
+}
+
+
+netcon $1

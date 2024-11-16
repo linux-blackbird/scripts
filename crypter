@@ -1,6 +1,16 @@
 #!/bin/bash
 
-#!/bin/bash
+## GENERAL VARIABLE
+crypt_keys='sda3';
+crypt_hive='sda8';
+crypt_file='sda5';
+crypt_devs='sda6';
+crypt_meds='sda7';
+crypt_virt='sda9';
+crypt_pods='sda10';
+crypt_dock='sda11';
+crypt_game='sda12';
+
 
 ## GENERAL METHOD
 
@@ -31,7 +41,7 @@ yuros_crypto_chek() {
 ## 		1. $1 = usrdir
 yuros_crypto_accs() {
 	sudo chown -R $USER:$USER $1 &&
-		sudo chmod -R 700 $1
+	sudo chmod -R 700 $1
 	if [[ -d $1/lost+found ]]; then
 		rm -fr $1/lost+found
 	fi
@@ -46,6 +56,12 @@ yuros_crypto_udir() {
 	echo "---------------------------------------------"
 	sudo cryptsetup luksOpen /dev/$1 $2 &&
 		sleep 2
+
+	if [[ ! -d ~/.local/crypto ]]; then
+		sudo mkdir ~/.local/crypto
+		chown -R $USER:$USER ~/.local/crypto
+	fi
+
 	if [[ ! -d $3 ]]; then
 		sudo mkdir $3
 	fi
@@ -86,50 +102,49 @@ yuros_crypto_umnt() {
 	yuros_crypto_stop "Crypto volume encrypted"
 }
 
+
 ## CRYPTO MOUNTER
 yuros_crypto_keys() {
-	volume="sda3"
+	volume="$crypt_keys";
 	mapper="crypt_keys"
-	usrdir="$HOME/.local/cryptkeys"
-	valdir=("gpg" "ssh" "dbx" "ssl" "rec")
-
-	cd $HOME &&
-	yuros_crypto_chek $volume &&
-	yuros_cryto_head &&
-	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
-		yuros_crypto_umnt $usrdir $mapper &&
-		rm -fr /home/$USER/.ssh
-	else
-		yuros_crypto_udir $volume $mapper $usrdir &&
-			yuros_crypto_desc "Decrypt keys crypto volume" &&
-			for dir in "${valdir[@]}"; do
-				if [[ ! -d $usrdir/$dir ]]; then
-					sudo mkdir $usrdir/$dir
-				fi
-				yuros_crypto_stat "$dir directory is ready"
-			done
-		yuros_crypto_accs $usrdir $mapper
-		if [[ -d /home/$USER/.ssh ]]; then
-			rm -fr $HOME/.ssh
-		fi
-		ln -s $usrdir/ssh /home/$USER/.ssh
-		yuros_crypto_stat "ssh directory sync"
-		yuros_crypto_stop "Keys crypto volume is ready"
-	fi
-}
-
-yuros_crypto_data() {
-	volume="sda5"
-	mapper="crypt_data"
-	usrdir="$HOME/.local/cryptdat"
-	valdir=("private" "family" "lectore" "lektorid" "ropeaccess" "lektorco" "datamaster" "uinjkt")
+	usrdir="$HOME/.local/crypto/keys"
+	valdir=("gpg" "ssh" "dbx" "ssl" "rec" "dkim")
 
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
 	yuros_cryto_head &&
 	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper
-		rm -fr ~/datum
+	else
+		yuros_crypto_udir $volume $mapper $usrdir &&
+		yuros_crypto_desc "Decrypt keys crypto volume" &&
+		for dir in "${valdir[@]}"; do
+			if [[ ! -d $usrdir/$dir ]]; then
+				sudo mkdir $usrdir/$dir
+			fi
+			yuros_crypto_stat "$dir directory is ready"
+		done
+		yuros_crypto_accs $usrdir $mapper
+		yuros_crypto_stat "ssh directory sync"
+		yuros_crypto_stop "Keys crypto volume is ready"
+	fi
+}
+
+yuros_crypto_file() {
+	volume="$crypt_file"
+	mapper="crypt_file"
+	usrdir="$HOME/.local/crypto/file"
+	valdir=("private" "family" "company" "friends" "organization" "working" )
+
+	cd $HOME &&
+
+	yuros_crypto_chek $volume &&
+
+	yuros_cryto_head &&
+
+	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
+		yuros_crypto_umnt $usrdir $mapper
+		rm -fr ~/files
 	else
 		yuros_crypto_udir $volume $mapper $usrdir &&
 		yuros_crypto_desc "Decrypt file crypto volume" &&
@@ -140,16 +155,16 @@ yuros_crypto_data() {
 			yuros_crypto_stat "$dir directory is ready"
 		done
 		yuros_crypto_accs $usrdir $mapper
-		ln -sf $usrdir ~/datum
-		yuros_crypto_stop "File crypto directory ready"
+		ln -sf $usrdir ~/files
+		yuros_crypto_stop "Files crypto directory ready"
 	fi
 }
 
 yuros_crypto_devs() {
-	volume="sda6"
+	volume="$crypt_devs"
 	mapper="crypt_devs"
-	usrdir="$HOME/.local/cryptapp"
-	valdir=("webbase" "android" "iphone" "linux" "windows" "compose")
+	usrdir="$HOME/.local/crypto/devel"
+	valdir=("website" "android" "iphone" "linux" "windows" "compose")
 
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
@@ -171,15 +186,47 @@ yuros_crypto_devs() {
 		yuros_crypto_accs $usrdir $mapper
 		ln -sf $usrdir ~/devel
 		yuros_crypto_stop "File crypto directory ready"
+	fi
+}
 
+yuros_crypto_meds() {
+	volume="$crypt_meds"
+	mapper="crypt_meds"
+	usrdir="$HOME/.local/crypto/media"
+	valdir=("audio" "video" "image")
+
+	cd $HOME &&
+	yuros_crypto_chek $volume &&
+	yuros_cryto_head &&
+	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
+		for dir in "${valdir[@]}"; do
+			rm -f "$HOME/$dir"
+		done
+		sleep 2
+		yuros_crypto_umnt $usrdir $mapper
+	else
+		yuros_crypto_udir $volume $mapper $usrdir &&
+		yuros_crypto_desc "Decrypt file crypto volume" &&
+		for dir in "${valdir[@]}"; do
+			if [[ ! -d $usrdir/$dir ]]; then
+				sudo mkdir $usrdir/$dir
+			fi
+			if [[ -f "$HOME/$dir" ]]; then
+				rm -f "$HOME/$dir"
+			fi
+			ln -fs $usrdir/$dir $HOME/$dir
+			yuros_crypto_stat "$dir directory is ready"
+		done
+		yuros_crypto_accs $usrdir $mapper
+		yuros_crypto_stop "Media crypto directory ready"
 	fi
 }
 
 yuros_crypto_virt() {
 
-	volume="sda8"
+	volume="$crypt_virt"
 	mapper="crypt_virt"
-	usrdir="$HOME/.local/cryptvir"
+	usrdir="$HOME/.local/crypto/virt"
 	valdir=("testing" "production" "proto" "yuvirt")
 
 	cd $HOME &&
@@ -204,6 +251,7 @@ yuros_crypto_virt() {
 }
 
 yuros_crypto_pods() {
+	volume="$crypt_pods"
 	echo "currently not available"
 }
 
@@ -333,13 +381,15 @@ yuros_crypto_game() {
 	fi
 }
 
-function yuros_crypter() {
+yuros_crypter() {
 	if [[ "keys" == "$1" ]]; then
 		yuros_crypto_keys
 	elif [[ "devel" == "$1" ]]; then
 		yuros_crypto_devs
-	elif [[ "data" == "$1" ]]; then
-		yuros_crypto_data
+	elif [[ "file" == "$1" ]]; then
+		yuros_crypto_file
+	elif [[ "media" == "$1" ]]; then
+		yuros_crypto_meds
 	elif [[ "game" == "$1" ]]; then
 		yuros_crypto_game
 	elif [[ "vhost" == "$1" ]]; then
