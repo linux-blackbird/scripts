@@ -50,6 +50,8 @@ function update() {
 		update_main 
 		update_gits
 		update_aurs
+		source /etc/profile 
+		source /etc/bash.bashrc
 	fi
 }
 
