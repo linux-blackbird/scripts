@@ -8,13 +8,12 @@ function update_mirr() {
 }
 
 function update_main() {
-	yes Y | sudo pacman -Sy &&
 	yes Y | sudo pacman -Syu &&
 	sudo rm -fr ~/.cache/*
 }
 
 function update_aurs() {
-	yes y | yay -Scc &&
+	yes y | yay -Syu &&
 	rm -fr ~/.cache/*
 }
 
@@ -27,11 +26,9 @@ function update_gits_rbin() {
 
 
 	sudo mv -f /usr/local/rbin/profile /etc/profile
-	echo 'profile file moved'
 	source /etc/profile
 
 	sudo mv -f /usr/local/rbin/bashrc /etc/bash.bashrc
-	echo 'bashrc file moved'
 	source /etc/bash.bashrc
 }
 
@@ -50,9 +47,7 @@ function update() {
 		update_mirr &&
 		update_main &&
 		update_gits &&
-		update_aurs &&
-		source /etc/profile 
-		source /etc/bash.bashrc
+		update_aurs
 	fi
 }
 
