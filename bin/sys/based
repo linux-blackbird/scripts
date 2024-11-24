@@ -4,7 +4,7 @@
 function bb_rm() {
 
     if [[ -f $1 ]];then
-        rm -f $1
+        rm $1
     fi
 
     if [[ -d $1 ]];then
