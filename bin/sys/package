@@ -8,12 +8,14 @@ function update_mirr() {
 }
 
 function update_main() {
-	yes Y | sudo pacman -Syu &&
+	yes Y | sudo pacman -Syuq &&
+	echo 'Update main package'
 	sudo rm -fr ~/.cache/*
 }
 
 function update_aurs() {
-	yes y | yay -Syu &&
+	yes y | yay -Syuq &&
+	echo 'Update community package'
 	rm -fr ~/.cache/*
 }
 
