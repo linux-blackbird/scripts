@@ -1,21 +1,55 @@
 #!/bin/bash
 
 
+function update_mirr() {
+	dateprefix=$(date +"%H%S")
+	sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-$dateprefix &&
+	reflector --country 'Indonesia,Singapore,Malaysia' --ipv4 &&
+}
+
+function update_main() {
+	yes Y | pacman -Sy &&
+	yes Y | pacman -Syu &&
+	rm -fr ~/.cache/*
+}
+
+function update_aurs() {
+	yes y | yay -Scc &&
+	rm -fr ~/.cache/*
+}
+
+
+function update_gits_rbin() {
+	if [[ -d  /usr/local/rbin ]];then
+		sudo rm -fr /usr/local/rbin
+	fi
+	sudo git clone git@github.com:blackbird-package/main-scripts.git /usr/local/rbin
+
+
+	echo 'source /usr/local/rbin/init' > '/etc/profile'
+	echo 'profil_main' > '/etc/profile'
+
+	echo 'source /usr/local/rbin/init' > '/etc/bashrc'
+	echo 'bashrc_main' > '/etc/profile'
+
+}
+
+
+function update_gits() {
+	update_gits_rbin;
+}
+
 function update() {
 
 	bb_rbin_head "PACKAGE UPDATE"
+	read -p "Hello $USER, Do you want update your system right now ? ( Y/n ) " BLACKBIRD_UPDATE
 
-	read -p "Hello Mr $USER, Do you want update your system right now ? ( Y/n ) " SCRORPIO_SYSTEM_UPDATE
-
-	if [[ $SCRORPIO_SYSTEM_UPDATE == "Y" || $SCRORPIO_SYSTEM_UPDATE == "y" ]];then
-		dateprefix=$(date +"%H%S")
-		sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-$dateprefix &&
-			reflector --country 'Indonesia,Singapore,Malaysia' --ipv4 &&
-			yay &&
-			yes y | yay -Scc &&
-			rm -fr ~/.cache/*
+	if [[ $BLACKBIRD_UPDATE == "Y" || $BLACKBIRD_UPDATE == "y" ]];then
+		sudo update_mirr
+		sudo update_main 
+		sudo update_gits
+		sudo update_aurs
 	fi
-
 }
 
 
