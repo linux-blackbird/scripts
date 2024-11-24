@@ -36,7 +36,7 @@ function update_gits_rbin() {
 }
 
 function update_gits_hypr() {
-	if [[ $( sudo pacman -Q hyprland ) -gt 0 ]];then	
+	if [[ $( sudo pacman -Q hyprland | wc -l ) -gt 0 ]];then	
 		echo 'Hyprland'
 	fi
 }
