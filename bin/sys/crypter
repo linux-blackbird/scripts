@@ -1,25 +1,10 @@
 #!/bin/bash
 
-## configuration
-source /etc/crypter
-
-#'nvme0n1p3'
-crypt_keys=$keys;
-crypt_hive=$hive;
-crypt_file=$file;
-crypt_meds=$media;
-crypt_devs=$devel;
-crypt_virt=$vhost;
-crypt_pods=$podman;
-crypt_dock=$docker;
-crypt_game=$game;
-
 
 ## params : 1. $1 = volume
 bb_crypter_chek() {
-
 	if [[ -z $1 ]]; then
-		bb_stat "Partition not registered yet. Register partition at /etc/crypter."
+		bb_stat "partition not registered yet. Register partition at /etc/crypter."
 		return 1
 	fi
 }
@@ -408,9 +393,24 @@ bb_crypter_game() {
 
 crypter() {
 
+	## configuration
+	source /etc/crypter
+
 	if [[ ! -f /etc/crypter ]];then
 		sudo cp -f $cfg_path/crypter /etc/
 	fi
+
+	#'nvme0n1p3'
+	crypt_keys=$keys;
+	crypt_hive=$hive;
+	crypt_file=$file;
+	crypt_meds=$media;
+	crypt_devs=$devel;
+	crypt_virt=$vhost;
+	crypt_pods=$podman;
+	crypt_dock=$docker;
+	crypt_game=$game;
+	
 
 	if [[ "keys" == "$1" ]]; then
 		bb_crypter_keys
