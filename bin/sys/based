@@ -9,9 +9,9 @@ function rmd() {
 function add-ssh(){
     if [[ -d /home/$USER/.local/crypto/keys/ssh ]];then
         cd /home/$USER/.local/crypto/keys/ssh 
-        echo 'i am here'
         if [[ $( ls | wc -l ) > 1 ]];then
-            find . -type f  ! -name "*.*" -exec ssh-add {}  \;
+            find . -type f  ! -name "*.*" -exec ssh-add {}  \ > /dev/null;
+            echo 'ssh keygen update'
         fi
     fi
 } 
