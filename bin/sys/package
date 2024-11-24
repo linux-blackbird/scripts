@@ -61,15 +61,15 @@ function cleaner() {
     
 	bb_rbin_head "PACKAGE CLEANER"
 
-    yes y | sudo pacman -Scc > /dev/null 2>&1 &&
+    yes Y | sudo pacman -Scc > /dev/null 2>&1 &&
     echo '  --> pacman package clean'
     if [[ ! -z $(pacman -Qtdq) ]];then
-        yes y | sudo pacman -R $(pacman -Qtdq) > /dev/null 2>&1
+        yes Y | sudo pacman -R $(pacman -Qtdq) > /dev/null 2>&1
         echo '  --> unused package clean'
     fi
 
-    yes y | yay -Scc > /dev/null 2>&1 &&
+    yes Y | yay -Scc > /dev/null 2>&1 &&
     echo '  --> pacman cache clean'
-    yes y | rm -fr $HOME/.cache/* > /dev/null 2>&1
+    yes Y | rm -fr $HOME/.cache/* > /dev/null 2>&1
     echo '  --> user cache clean'
 }
