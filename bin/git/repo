@@ -4,7 +4,7 @@ function bb_git_push() {
 	
 	bb_rbin_head "GITREPO ASSISTANT"
 
-	read -p "Insert github commit message : " COMMIT_MESSAGE
+	read -p "Insert git commit message : " COMMIT_MESSAGE
 	git add . &&
 	if [[ -z $COMMIT_MESSAGE ]];then
 		git commit -m "latest update" 
