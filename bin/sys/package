@@ -36,7 +36,10 @@ function update_gits_rbin() {
 }
 
 function update_gits_hypr() {
-	if [[ $( sudo pacman -Q hyprland | wc -l ) -gt 0 ]];then	
+
+	installed=$( sudo pacman -Q gnome | wc -l )
+
+	if [[ $installed -gt 0 ]];then	
 		echo 'Hyprland'
 	fi
 }
