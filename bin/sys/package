@@ -37,8 +37,7 @@ function update_gits_rbin() {
 
 function update_gits_hypr() {
 
-
-	if sudo pacman -Q gnome;then	
+	if [[  $XDG_CURRENT_DESKTOP -eq "Hyprland" ]] ;then	
 		echo 'Hyprland'
 	fi
 }
