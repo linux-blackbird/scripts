@@ -92,8 +92,8 @@ function update_gits_hypr() {
 		done
 
 		## update wallpapper
-
-		for i in ( 1 2 3 )
+		wallid=( 1 2 3 )
+		for i in "${wallid[@]}"
 		do 
 			sudo rm /usr/share/hypr/wall$i.png
 			sudo cp $ast_path/wall2.png /usr/share/hypr/wall$1.png
