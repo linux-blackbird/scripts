@@ -3,16 +3,16 @@
 function bb_rbin_head() {
 clear
 echo "
-================================================
- BLACKBIRD | $1
-------------------------------------------------
- kernel    :  Linux $(uname -r)
- shell     :  $(ps ax | grep $$ | grep -v grep | awk '{ print $2 }')
- protocol  :  A-00-00000
- codename  :  peregrine falcon
- distrib   :  internal
-------------------------------------------------
- copyright @ 2024 Lektor Media Utama
-------------------------------------------------
+ ================================================
+  BLACKBIRD | $1
+ ------------------------------------------------
+  kernel    :  Linux $(uname -r)
+  shell     :  $(ps ax | grep $$ | grep -v grep | awk '{ print $2 }')
+  protocol  :  A-00-00000
+  codename  :  peregrine falcon
+  distrib   :  internal
+ ------------------------------------------------
+  copyright @ 2024 Lektor Media Utama
+ ------------------------------------------------
 "
 }

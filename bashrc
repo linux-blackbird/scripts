@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-bin_path=$HOME/.local/rbin/bin
-lib_path=$HOME/.local/rbin/lib
+bin_path=/usr/local/rbin/bin
+lib_path=/usr/local/rbin/lib
 
 
 source $bin_path/sys/index
