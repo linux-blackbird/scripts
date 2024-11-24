@@ -118,8 +118,8 @@ function update_gits() {
 	update_gits_gnom
 }
 
-function update_conf() {
 
+function update_conf() {
 	bb_rbin_head "UPDATE MAIN CONFIG"
 	source /etc/profile &&
 	source /etc/bash.bashrc
