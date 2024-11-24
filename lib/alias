@@ -3,4 +3,5 @@
 ## ALIAS
 alias ls='ls --color=auto'
 alias rm='bb_rm'
+alias code='code --no-sandbox'
 alias grep='grep --color=auto'

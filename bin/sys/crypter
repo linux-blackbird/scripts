@@ -98,7 +98,7 @@ yuros_crypto_keys() {
 
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
-	yuros_cryto_head &&
+	bb_rbin_head "CRYPTOVAULT MANAGER" &&
 	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper
 	else
@@ -126,7 +126,7 @@ yuros_crypto_file() {
 
 	yuros_crypto_chek $volume &&
 
-	yuros_cryto_head &&
+	bb_rbin_head "CRYPTOVAULT MANAGER" &&
 
 	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper
@@ -154,7 +154,7 @@ yuros_crypto_devs() {
 
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
-	yuros_cryto_head &&
+	bb_rbin_head "CRYPTOVAULT MANAGER" &&
 	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper
 		rm -fr ~/devel
@@ -183,7 +183,7 @@ yuros_crypto_meds() {
 
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
-	yuros_cryto_head &&
+	bb_rbin_head "CRYPTOVAULT MANAGER" &&
 	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		for dir in "${valdir[@]}"; do
 			rm -f "$HOME/$dir"
@@ -217,7 +217,7 @@ yuros_crypto_virt() {
 
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
-	yuros_cryto_head &&
+	bb_rbin_head "CRYPTOVAULT MANAGER" &&
 	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper
 		rm -fr ~/vmhost
@@ -250,7 +250,7 @@ yuros_crypto_dock() {
 
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
-	yuros_cryto_head
+	bb_rbin_head "CRYPTOVAULT MANAGER"
 
 	if [[ $(sudo mountpoint -qd /run/media/$USER/docker/) ]]; then
 
@@ -349,7 +349,7 @@ yuros_crypto_game() {
 
 	cd $HOME &&
 	yuros_crypto_chek $volume &&
-	yuros_cryto_head &&
+	bb_rbin_head "CRYPTOVAULT MANAGER" &&
 	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
 		yuros_crypto_umnt $usrdir $mapper
 	else
