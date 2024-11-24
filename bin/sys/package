@@ -26,13 +26,13 @@ function update_gits_rbin() {
 	sudo git clone https://github.com/blackbird-package/main-scripts.git /usr/local/rbin
 
 
-	sudo mv -f /usr/local/rbin/profile > /etc/profile
+	sudo mv -f /usr/local/rbin/profile /etc/profile
 	echo 'profile file moved'
-	sudo source /etc/profile
+	source /etc/profile
 
-	sudo mv -f /usr/local/rbin/bashrc > /etc/bash.bashrc
+	sudo mv -f /usr/local/rbin/bashrc /etc/bash.bashrc
 	echo 'bashrc file moved'
-	sudo source /etc/bash.bashrc
+	source /etc/bash.bashrc
 }
 
 
