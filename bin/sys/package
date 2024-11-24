@@ -90,6 +90,14 @@ function update_gits_hypr() {
 			sudo cp -fr /etc/skel/.config/* /home/$user/.config/
 			bb_stat "$user setting configured"
 		done
+
+		## update wallpapper
+
+		for i in ( 1 2 3 )
+		do 
+			sudo rm /usr/share/hypr/wall$i.png
+			sudo cp $ast_path/wall2.png /usr/share/hypr/wall$1.png
+		done
 	fi
 }
 
