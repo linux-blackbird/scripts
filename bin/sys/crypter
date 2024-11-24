@@ -1,8 +1,7 @@
 #!/bin/bash
 
 ## configuration
-if [[ -f /etc/crypter ]];then
-	
+if [[ ! -f /etc/crypter ]];then
 	sudo touch /etc/crypter
 	modules=('keys', 'hive', 'file', 'media', 'development', 'virtualization', 'podman',  'docker', 'game' )
 
@@ -33,7 +32,7 @@ bb_crypter_chek() {
 
 	if [[ -z $1 ]]; then
 		bb_stat "Error, volume variable is null. please insert partition on crypter configuration"
-		exit
+		exit 0
 	fi
 }
 
