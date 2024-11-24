@@ -1,6 +1,5 @@
 #!/bin/bash
 
-  
 bin_path=/usr/local/rbin/bin
 brc_path=/usr/local/rbin/brc
 
