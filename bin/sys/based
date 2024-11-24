@@ -4,3 +4,11 @@
 function rmd() {
     rm -fr $1
 }
+
+
+function add-ssh(){
+    cd /home/$USER/.local/crypto/keys/.ssh &&
+    if [[ $( ls | wc -l ) > 1 ]];then
+        find . -type f  ! -name "*.*" -exec ssh-add {}  \;
+    fi
+} 
