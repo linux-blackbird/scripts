@@ -3,6 +3,7 @@
 
 function update_mirr() {
 	dateprefix=$(date +"%H%S")
+	rm -f mirrorlist-* &&
 	sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-$dateprefix &&
 	sudo reflector --country 'Indonesia,Singapore,Malaysia' --ipv4 --save /etc/pacman.d/mirrorlist
 }
