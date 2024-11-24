@@ -1,10 +1,6 @@
 #!/bin/bash
 
 ## configuration
-if [[ ! -f /etc/crypter ]];then
-	sudo cp -f $cfg_path/crypter /etc/
-fi
-
 source /etc/crypter
 
 #'nvme0n1p3'
@@ -411,6 +407,11 @@ bb_crypter_game() {
 
 
 crypter() {
+
+	if [[ ! -f /etc/crypter ]];then
+		sudo cp -f $cfg_path/crypter /etc/
+	fi
+
 	if [[ "keys" == "$1" ]]; then
 		bb_crypter_keys
 	elif [[ "hive" == "$1" ]]; then
