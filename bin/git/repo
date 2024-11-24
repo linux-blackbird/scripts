@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function ghp() {
+function bb_git_push() {
 	
 	bb_rbin_head "GITREPO ASSISTANT"
 
@@ -12,4 +12,9 @@ function ghp() {
 		git commit -m "$COMMIT_MESSAGE"
 	fi
 	git push
+}
+
+
+function bb_git_clone() {
+	git clone $1
 }

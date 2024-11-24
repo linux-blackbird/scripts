@@ -3,5 +3,7 @@
 ## ALIAS
 alias ls='ls --color=auto'
 alias rm='bb_rm'
+alias gitp='bb_git_push'
+alias gitc='bb_git_clone'
 alias code='code --no-sandbox'
 alias grep='grep --color=auto'
