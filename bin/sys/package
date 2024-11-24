@@ -43,9 +43,18 @@ function update_gits_hypr() {
 }
 
 
+function update_gits_gnom() {
+
+	if [[  $XDG_CURRENT_DESKTOP == "Gnome" ]] ;then	
+		echo 'gnome'
+	fi
+}
+
+
 function update_gits() {
-	update_gits_rbin
-	update_gits_hypr
+	update_gits_rbin &&
+	update_gits_hypr &&
+	update_gits_gnom &&
 	echo 'git package updated'
 }
 
