@@ -19,7 +19,8 @@ echo "
 
 
 function bb_stat() {
-    echo " |
+    echo " 
+     |
      +--> $1
      |
     "
