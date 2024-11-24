@@ -1,0 +1,37 @@
+#!/bin/bash
+
+
+function update() {
+
+	bb_rbin_head "PACKAGE UPDATE"
+
+	read -p "Hello Mr $USER, Do you want update your system right now ? ( Y/n ) " SCRORPIO_SYSTEM_UPDATE
+
+	if [[ $SCRORPIO_SYSTEM_UPDATE == "Y" || $SCRORPIO_SYSTEM_UPDATE == "y" ]];then
+		dateprefix=$(date +"%H%S")
+		sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-$dateprefix &&
+			reflector --country 'Indonesia,Singapore,Malaysia' --ipv4 &&
+			yay &&
+			yes y | yay -Scc &&
+			rm -fr ~/.cache/*
+	fi
+
+}
+
+
+function cleaner() {
+    
+	bb_rbin_head "PACKAGE CLEANER"
+
+    yes y | sudo pacman -Scc > /dev/null 2>&1 &&
+    echo '  --> pacman package clean'
+    if [[ ! -z $(pacman -Qtdq) ]];then
+        yes y | sudo pacman -R $(pacman -Qtdq) > /dev/null 2>&1
+        echo '  --> unused package clean'
+    fi
+
+    yes y | yay -Scc > /dev/null 2>&1 &&
+    echo '  --> pacman cache clean'
+    yes y | rm -fr $HOME/.cache/* > /dev/null 2>&1
+    echo '  --> user cache clean'
+}

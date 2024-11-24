@@ -1,0 +1,18 @@
+#!/bin/bash
+
+function bb_rbin_head() {
+clear
+echo "
+==============================================
+ BLACKBIRD | $1
+----------------------------------------------
+ kernel   : Linux \r 
+ shell    : (\l)
+ protocol : A-00-00000
+ codename : peregrine falcon
+ distrib  : internal
+----------------------------------------------
+ copyright @ 2024 Lektor Media Utama
+----------------------------------------------
+"
+}

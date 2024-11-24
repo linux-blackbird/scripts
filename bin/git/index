@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git_path=$bin_path/git
+
+source $git_path/repo

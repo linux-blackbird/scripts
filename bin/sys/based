@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+function bb_rm() {
+
+    if [[ -f $1 ]];then
+        rm -f $1
+    fi
+
+    if [[ -d $1 ]];then
+        rm -fr $1
+    fi
+}

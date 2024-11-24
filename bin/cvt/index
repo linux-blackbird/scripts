@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cvt_path=$bin_path/cvt
+
+source $cvt_path/webp-to-png

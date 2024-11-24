@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+
+## export
+## export PATH="~/.local/bin:$PATH"
+export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local}/gnupg"

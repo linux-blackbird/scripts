@@ -1,0 +1,6 @@
+#!/bin/bash
+
+## ALIAS
+alias ls='ls --color=auto'
+alias rm='bb_rm'
+alias grep='grep --color=auto'
