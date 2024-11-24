@@ -33,7 +33,12 @@ function update_gits_rbin() {
 
 	sudo mv -f /usr/local/rbin/profile /etc/profile
 	sudo mv -f /usr/local/rbin/bashrc /etc/bash.bashrc
-	
+}
+
+function update_gits_hypr() {
+	if [[ $( sudo pacman -Q hyprland ) -gt 0 ]];then	
+		echo 'Hyprland'
+	fi
 }
 
 
@@ -41,6 +46,7 @@ function update_gits() {
 	update_gits_rbin
 	echo 'git package updated'
 }
+
 
 function update() {
 
