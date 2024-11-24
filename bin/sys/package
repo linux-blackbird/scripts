@@ -65,7 +65,7 @@ function update_gits_hypr() {
 			fi
 			bb_stat "$apps download directory cleaned"
 
-			sudo git clone -1 https://github.com/blackbird-hyprland/config-$apps.git /tmp/$apps
+			sudo git clone -q https://github.com/blackbird-hyprland/config-$apps.git /tmp/$apps
 			bb_stat "$apps downloaded"	
 
 			if [[ -d  /etc/skel/.config/$apps ]];then
