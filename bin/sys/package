@@ -105,7 +105,7 @@ function update_gits_gnom() {
 function update_gits() {
 	update_gits_rbin &&
 	update_gits_hypr &&
-	update_gits_gnom &&
+	update_gits_gnom
 }
 
 function update_conf() {
