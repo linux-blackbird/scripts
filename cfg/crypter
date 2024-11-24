@@ -1,0 +1,11 @@
+# insert partition name for available module
+
+keys=""
+hive=""
+file=""
+media=""
+development=""
+virtualization=""
+podman=""
+docker=""
+game=""

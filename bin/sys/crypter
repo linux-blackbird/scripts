@@ -2,29 +2,21 @@
 
 ## configuration
 if [[ ! -f /etc/crypter ]];then
-	sudo touch /etc/crypter
-	modules=('keys' 'hive' 'file' 'media' 'development' 'virtualization' 'podman' 'docker' 'game')
-
-	for module in "${modules[@]}"
-	do
-		sudo echo "# insert partition name for $module" >> /etc/crypter
-		sudo echo "$module=''" >> /etc/crypter
-		sudo echo "" >> /etc/crypter
-	done
+	sudo cp -f $cfg_path/crypter /etc/
 fi
 
 source /etc/crypter
 
 #'nvme0n1p3'
-crypt_keys=$keys_partition;
-crypt_hive=$hive_partition;
-crypt_file=$file_partition;
-crypt_meds=$media_partition;
-crypt_devs=$development_partition;
-crypt_virt=$virtualization_partition;
-crypt_pods=$podman_partition;
-crypt_dock=$docker_paritition;
-crypt_game=$game_paritition;
+crypt_keys=$keys;
+crypt_hive=$hive;
+crypt_file=$file;
+crypt_meds=$media;
+crypt_devs=$development;
+crypt_virt=$virtualization;
+crypt_pods=$podman;
+crypt_dock=$docker;
+crypt_game=$game;
 
 
 ## params : 1. $1 = volume

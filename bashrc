@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ast_path=/usr/local/rbin/ast
+cfg_path=/usr/local/rbin/ast
 bin_path=/usr/local/rbin/bin
 brc_path=/usr/local/rbin/brc
 
