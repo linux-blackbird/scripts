@@ -77,7 +77,9 @@ bb_crypter_keys() {
 	mapper="crypt_keys"
 	usrdir="$HOME/.local/crypto/keys"
 	valdir=("gpg" "ssh" "dbx" "ssl" "rec" "dkim")
+	pather=$(pwd)
 
+	cd $HOME &&
 	bb_crypter_chek $volume &&
 	bb_rbin_head "CRYPTOVAULT MANAGER" &&
 	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
@@ -95,6 +97,7 @@ bb_crypter_keys() {
 		bb_stat "ssh directory sync"
 		bb_crypter_stop "Keys crypto volume is ready"
 	fi
+	cd $pather
 }
 
 
@@ -104,6 +107,7 @@ bb_crypter_hive() {
 	mapper="crypt_hive"
 	usrdir="$HOME/.local/crypto/hive"
 	valdir=( "certificate" "research" "blueprint" "intel")
+	pather=$(pwd)
 
 	cd $HOME &&
 	bb_crypter_chek $volume &&
@@ -123,6 +127,7 @@ bb_crypter_hive() {
 		bb_crypter_accs $usrdir $mapper
 		bb_crypter_stop "Hive crypto directory ready"
 	fi
+	cd $pather
 }
 
 
@@ -132,6 +137,7 @@ bb_crypter_file() {
 	mapper="crypt_file"
 	usrdir="$HOME/.local/crypto/file"
 	valdir=("personal" "family" "company" "friends" "organization" "working" )
+	pather=$(pwd)
 
 	cd $HOME &&
 	bb_crypter_chek $volume &&
@@ -153,6 +159,7 @@ bb_crypter_file() {
 		ln -sf $usrdir ~/files
 		bb_crypter_stop "Files crypto directory ready"
 	fi
+	cd $pather
 }
 
 
@@ -162,6 +169,7 @@ bb_crypter_meds() {
 	mapper="crypt_meds"
 	usrdir="$HOME/.local/crypto/media"
 	valdir=("audio" "video" "image")
+	pather=$(pwd)
 
 	cd $HOME &&
 	bb_crypter_chek $volume &&
@@ -188,6 +196,7 @@ bb_crypter_meds() {
 		bb_crypter_accs $usrdir $mapper
 		bb_crypter_stop "Media crypto directory ready"
 	fi
+	cd $pather
 }
 
 
@@ -197,6 +206,7 @@ bb_crypter_devs() {
 	mapper="crypt_devs"
 	usrdir="$HOME/.local/crypto/devel"
 	valdir=("website" "android" "iphone" "linux" "windows" "compose")
+	pather=$(pwd)
 
 	cd $HOME &&
 	bb_crypter_chek $volume &&
@@ -219,6 +229,7 @@ bb_crypter_devs() {
 		ln -sf $usrdir ~/devel
 		bb_crypter_stop "File crypto directory ready"
 	fi
+	cd $pather
 }
 
 
@@ -229,6 +240,7 @@ bb_crypter_virt() {
 	mapper="crypt_virt"
 	usrdir="$HOME/.local/crypto/virt"
 	valdir=("testing" "production" "proto" "yuvirt")
+	pather=$(pwd)
 
 	cd $HOME &&
 	bb_crypter_chek $volume &&
@@ -249,6 +261,7 @@ bb_crypter_virt() {
 		ln -fs $usrdir/yuvirt ~/vmhost
 		bb_crypter_stop "File crypto directory ready"
 	fi
+	cd $pather
 }
 
 
@@ -367,6 +380,7 @@ bb_crypter_game() {
 	mapper="crypt_game"
 	usrdir="$HOME/.local/cryptjoy"
 	valdir=("steam" "ubisoft" "epic" "ninwii" "switch" "ps2")
+	pather=$(pwd)
 
 	cd $HOME &&
 	bb_crypter_chek $volume &&
@@ -386,6 +400,7 @@ bb_crypter_game() {
 		bb_crypter_accs $usrdir $mapper
 		bb_crypter_stop "File crypto directory ready"
 	fi
+	cd $pather
 }
 
 
