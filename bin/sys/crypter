@@ -77,9 +77,7 @@ bb_crypter_keys() {
 	mapper="crypt_keys"
 	usrdir="$HOME/.local/crypto/keys"
 	valdir=("gpg" "ssh" "dbx" "ssl" "rec" "dkim")
-	pather=$(pwd)
 
-	cd $HOME &&
 	bb_crypter_chek $volume &&
 	bb_rbin_head "CRYPTOVAULT MANAGER" &&
 	if [[ $(sudo mountpoint -qd $usrdir) ]]; then
@@ -97,7 +95,6 @@ bb_crypter_keys() {
 		bb_stat "ssh directory sync"
 		bb_crypter_stop "Keys crypto volume is ready"
 	fi
-	cd $pather
 }
 
 
