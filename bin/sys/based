@@ -1,13 +1,6 @@
 #!/bin/bash
 
 
-function bb_rm() {
-
-    if [[ -f $1 ]];then
-        rm $1
-    fi
-
-    if [[ -d $1 ]];then
-        rm -fr $1
-    fi
+function rmd() {
+    rm -fr $1
 }
