@@ -22,10 +22,9 @@ bb_crypter_accs() {
 
 ## params : $1 = volume, $2 = mapper, $3 = usrdir
 bb_crypter_udir() {
-	echo ""
-	echo "---------------------------------------------"
+
 	sudo cryptsetup luksOpen /dev/$1 $2 &&
-		sleep 2
+	sleep 2
 
 	if [[ ! -d ~/.local/crypto ]]; then
 		sudo mkdir ~/.local/crypto
@@ -36,7 +35,7 @@ bb_crypter_udir() {
 		sudo mkdir $3
 	fi
 	sudo mount /dev/mapper/$2 $3 &&
-		sleep 1
+	sleep 1
 }
 
 
@@ -410,7 +409,7 @@ crypter() {
 	crypt_pods=$podman;
 	crypt_dock=$docker;
 	crypt_game=$game;
-	
+
 
 	if [[ "keys" == "$1" ]]; then
 		bb_crypter_keys
