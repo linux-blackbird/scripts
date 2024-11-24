@@ -3,13 +3,13 @@
 ## configuration
 if [[ ! -f /etc/crypter ]];then
 	sudo touch /etc/crypter
-	modules=('keys', 'hive', 'file', 'media', 'development', 'virtualization', 'podman',  'docker', 'game' )
+	modules=('keys' 'hive' 'file' 'media' 'development' 'virtualization' 'podman' 'docker' 'game')
 
 	for module in "${modules[@]}"
 	do
-		echo "# insert partition name for $module" >> /etc/crypter
-		echo "$module=''" >> /etc/crypter
-		echo ""
+		sudo echo "# insert partition name for $module" >> /etc/crypter
+		sudo echo "$module=''" >> /etc/crypter
+		sudo echo "" >> /etc/crypter
 	done
 fi
 
