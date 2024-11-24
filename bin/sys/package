@@ -11,6 +11,7 @@ function update_mirr() {
 		bb_stat 'create mirror file'
 	fi
 	sudo reflector --country 'Indonesia,Singapore,Malaysia' --ipv4 --save /etc/pacman.d/mirrorlist
+	sleep 2
 	bb_stat 'load fastest mirror'
 }
 
@@ -92,7 +93,7 @@ function update_gits_hypr() {
 		done
 
 		## update wallpapper
-		wallid=( "wall1.png" "wall2.png" "wall3.png" )
+		wallid=( "wall0.png" "wall1.png" "wall2.png" )
 		for img in "${wallid[@]}"
 		do 
 			sudo rm -f /usr/share/hypr/$img
