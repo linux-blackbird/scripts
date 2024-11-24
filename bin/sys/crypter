@@ -32,7 +32,7 @@ bb_crypter_chek() {
 
 	if [[ -z $1 ]]; then
 		bb_stat "Partition not registered yet. Register partition at /etc/crypter."
-		exit 0
+		return 1
 	fi
 }
 
