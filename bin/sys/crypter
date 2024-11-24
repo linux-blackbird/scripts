@@ -31,7 +31,7 @@ crypt_game=$game_paritition;
 bb_crypter_chek() {
 
 	if [[ -z $1 ]]; then
-		bb_stat "Error, volume variable is null. please insert partition on crypter configuration"
+		bb_stat "Partition not registered yet. Register partition at /etc/crypter."
 		exit 0
 	fi
 }
