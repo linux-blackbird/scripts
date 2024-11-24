@@ -27,10 +27,12 @@ function update_gits_rbin() {
 
 
 	sudo mv -f /usr/local/rbin/profile > /etc/profile
-	source /etc/profile
+	echo 'profile file moved'
+	sudo source /etc/profile
 
 	sudo mv -f /usr/local/rbin/bashrc > /etc/bash.bashrc
-	source /etc/bash.bashrc
+	echo 'bashrc file moved'
+	sudo source /etc/bash.bashrc
 }
 
 
