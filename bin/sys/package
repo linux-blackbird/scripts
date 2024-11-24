@@ -32,10 +32,8 @@ function update_gits_rbin() {
 	echo 'Update rbin package'
 
 	sudo mv -f /usr/local/rbin/profile /etc/profile
-	source /etc/profile
-
 	sudo mv -f /usr/local/rbin/bashrc /etc/bash.bashrc
-	source /etc/bash.bashrc
+	
 }
 
 
@@ -53,7 +51,9 @@ function update() {
 		update_mirr &&
 		update_main &&
 		update_gits &&
-		update_aurs
+		update_aurs &&
+		source /etc/profile &&
+		source /etc/bash.bashrc
 	fi
 }
 
