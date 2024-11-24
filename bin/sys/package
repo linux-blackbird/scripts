@@ -92,11 +92,11 @@ function update_gits_hypr() {
 		done
 
 		## update wallpapper
-		wallid=( 1 2 3 )
-		for i in "${wallid[@]}"
+		wallid=( "wall1.png" "wall2.png" "wall3.png" )
+		for img in "${wallid[@]}"
 		do 
-			sudo rm -f /usr/share/hypr/wall$i.png
-			sudo cp -f $ast_path/wall2.png /usr/share/hypr/wall$1.png
+			sudo rm -f /usr/share/hypr/$img
+			sudo cp -f $ast_path/wall2.png /usr/share/hypr/$img
 		done
 		bb_stat "assets setting configured"
 	fi
