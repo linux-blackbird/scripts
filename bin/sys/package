@@ -98,6 +98,7 @@ function update_gits_hypr() {
 			sudo rm /usr/share/hypr/wall$i.png
 			sudo cp $ast_path/wall2.png /usr/share/hypr/wall$1.png
 		done
+		bb_stat "assets setting configured"
 	fi
 }
 
