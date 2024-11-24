@@ -5,9 +5,7 @@ function rmd() {
 }
 
 function add-ssh(){
-
     current_path=$(pwd)
-
     if [[ -d /home/$USER/.local/crypto/keys/ssh ]];then
         cd /home/$USER/.local/crypto/keys/ssh 
         if [[ $( ls | wc -l ) > 1 ]];then
