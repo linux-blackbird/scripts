@@ -27,10 +27,10 @@ function update_gits_rbin() {
 
 
 	sudo echo 'source /usr/local/rbin/profile' > '/etc/profile'
-	sudo echo 'profil_main' > '/etc/profile'
+	source /etc/profile
 
 	sudo echo 'source /usr/local/rbin/bashrc' > '/etc/bash.bashrc'
-	sudo echo 'bashrc_main' > '/etc/bash.bashrc'
+	source /etc/bash.bashrc
 }
 
 
