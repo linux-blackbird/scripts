@@ -4,7 +4,6 @@
 function update_mirr() {
 	dateprefix=$(date +"%H%S")
 	sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-$dateprefix &&
-	touch /etc/pacman.d/mirrorlist
 	sudo reflector --country 'Indonesia,Singapore,Malaysia' --ipv4 --save /etc/pacman.d/mirrorlist
 }
 
@@ -24,7 +23,7 @@ function update_gits_rbin() {
 	if [[ -d  /usr/local/rbin ]];then
 		sudo rm -fr /usr/local/rbin
 	fi
-	sudo git clone git@github.com:blackbird-package/main-scripts.git /usr/local/rbin
+	sudo git clone https://github.com/blackbird-package/main-scripts.git /usr/local/rbin
 
 
 	sudo echo 'source /usr/local/rbin/init' > '/etc/profile'
