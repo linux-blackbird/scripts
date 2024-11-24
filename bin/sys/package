@@ -37,6 +37,7 @@ function update_gits_rbin() {
 
 function update_gits() {
 	update_gits_rbin
+	echo 'git package updated'
 }
 
 function update() {
