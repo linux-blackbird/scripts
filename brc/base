@@ -27,5 +27,3 @@ export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local}/gnupg"
 
 
 PS1='[\u@\h \W]\$ '
-
-ssh-add
