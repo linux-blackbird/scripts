@@ -31,7 +31,7 @@ function update_gits_rbin() {
 	sudo echo 'profil_main' > '/etc/profile'
 
 	sudo echo 'source /usr/local/rbin/init' > '/etc/bash.bashrc'
-	sudo echo 'bashrc_main' > '/etc/bash.bashrc
+	sudo echo 'bashrc_main' > '/etc/bash.bashrc'
 }
 
 
