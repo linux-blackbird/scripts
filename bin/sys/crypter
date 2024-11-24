@@ -18,7 +18,7 @@ crypt_game='';
 bb_crypter_chek() {
 
 	if [[ -z $1 ]]; then
-		echo "Error, volume variable is null. please insert partition on crypter configuration"
+		bb_stat "Error, volume variable is null. please insert partition on crypter configuration"
 		exit
 	fi
 }
@@ -63,9 +63,6 @@ bb_crypter_desc() {
 	echo ""
 }
 
-bb_crypter_stat() {
-	echo "    ---> $1"
-}
 
 bb_crypter_stop() {
 	echo ""
@@ -81,12 +78,12 @@ bb_crypter_umnt() {
 	sudo umount $1 &&
 	bb_crypter_desc "Ecnrypt crypto volume" &&
 	sleep 2
-	bb_crypter_stat "paritition is umounted"
+	bb_stat "paritition is umounted"
 	sudo cryptsetup luksClose /dev/mapper/$2 &&
 	sleep 1
-	bb_crypter_stat "partition is locked"
+	bb_stat "partition is locked"
 	sudo rm -fr $1
-	bb_crypter_stat "user directory clean"
+	bb_stat "user directory clean"
 	bb_crypter_stop "Crypto volume encrypted"
 }
 
@@ -110,10 +107,10 @@ bb_crypter_keys() {
 			if [[ ! -d $usrdir/$dir ]]; then
 				sudo mkdir $usrdir/$dir
 			fi
-			bb_crypter_stat "$dir directory is ready"
+			bb_stat "$dir directory is ready"
 		done
 		bb_crypter_accs $usrdir $mapper
-		bb_crypter_stat "ssh directory sync"
+		bb_stat "ssh directory sync"
 		bb_crypter_stop "Keys crypto volume is ready"
 	fi
 }
@@ -140,7 +137,7 @@ bb_crypter_file() {
 			if [[ ! -d $usrdir/$dir ]]; then
 				sudo mkdir $usrdir/$dir
 			fi
-			bb_crypter_stat "$dir directory is ready"
+			bb_stat "$dir directory is ready"
 		done
 		bb_crypter_accs $usrdir $mapper
 		ln -sf $usrdir ~/files
@@ -169,7 +166,7 @@ bb_crypter_devs() {
 			if [[ ! -d $usrdir/$dir ]]; then
 				sudo mkdir $usrdir/$dir
 			fi
-			bb_crypter_stat "$dir directory is ready"
+			bb_stat "$dir directory is ready"
 		done
 		bb_crypter_accs $usrdir $mapper
 		ln -sf $usrdir ~/devel
@@ -203,7 +200,7 @@ bb_crypter_meds() {
 				rm -f "$HOME/$dir"
 			fi
 			ln -fs $usrdir/$dir $HOME/$dir
-			bb_crypter_stat "$dir directory is ready"
+			bb_stat "$dir directory is ready"
 		done
 		bb_crypter_accs $usrdir $mapper
 		bb_crypter_stop "Media crypto directory ready"
@@ -230,7 +227,7 @@ bb_crypter_virt() {
 			if [[ ! -d $usrdir/$dir ]]; then
 				sudo mkdir $usrdir/$dir
 			fi
-			bb_crypter_stat "$dir directory is ready"
+			bb_stat "$dir directory is ready"
 		done
 		bb_crypter_accs $usrdir $mapper
 		ln -fs $usrdir/yuvirt ~/vmhost
@@ -260,35 +257,35 @@ bb_crypter_dock() {
 
 		if [[ ! -z  $( sudo docker ps -q ) ]];then
 			sudo docker kill $(sudo docker ps -q ) > /dev/null 2>&1
-			bb_crypter_stat "Terminate all docker activity"
+			bb_stat "Terminate all docker activity"
 		fi
 		
 		sudo systemctl stop docker > /dev/null 2>&1
-		bb_crypter_stat "Disable docker service"
+		bb_stat "Disable docker service"
 		sleep 1 &&
 
 		sudo systemctl stop docker.socket > /dev/null 2>&1
-		bb_crypter_stat "Disable docker socket"
+		bb_stat "Disable docker socket"
 		sleep 1 &&
 
 		for dir in "${valdir[@]}"; do
 			if [[ $(sudo mountpoint -qd /var/lib/docker/$dir) ]]; then
 				sudo umount -R /var/lib/docker/$dir 
 				sleep 1
-				bb_crypter_stat "$dir docker is unmounted"
+				bb_stat "$dir docker is unmounted"
 			fi
 		done
 
 		sudo umount -R /run/media/$USER/docker
-		bb_crypter_stat "Umount docker volume"
+		bb_stat "Umount docker volume"
 		sleep 1
 
 		sudo cryptsetup luksClose /dev/mapper/$mapper
-		bb_crypter_stat "Remove docker mapper"
+		bb_stat "Remove docker mapper"
 		sleep 1
 
 		sudo rm -fr /run/media/$USER/docker
-		bb_crypter_stat "Cleanup user space"
+		bb_stat "Cleanup user space"
 		bb_crypter_stop "Docker crypto volume is encrypted"
 
 	else
@@ -296,24 +293,24 @@ bb_crypter_dock() {
 		sudo cryptsetup luksOpen /dev/$volume $mapper &&
 		sleep 2
 		bb_crypter_desc "Decrypt file crypto volume"
-		bb_crypter_stat "Encrypted volume decrypted"
+		bb_stat "Encrypted volume decrypted"
 
 
 		if [[ ! -d /run/media/$USER ]]; then
 			sudo mkdir /run/media/$USER
-			bb_crypter_stat "Docker media user created"
+			bb_stat "Docker media user created"
 		fi
 		sleep 1
 
 		if [[ ! -d /run/media/$USER/docker ]]; then
 			sudo mkdir /run/media/$USER/docker
-			bb_crypter_stat "Docker media sub directory created"
+			bb_stat "Docker media sub directory created"
 		fi
 		sleep 1
 
 		if [[ ! $(sudo mountpoint -qd /run/media/$USER/docker) ]]; then
 			sudo mount /dev/mapper/$mapper /run/media/$USER/docker
-			bb_crypter_stat "Mount crypto volume to user media"
+			bb_stat "Mount crypto volume to user media"
 		fi
 
 		if [[ ! -d /var/lib/docker ]]; then
@@ -329,14 +326,14 @@ bb_crypter_dock() {
 
 			if [[ ! $(sudo mountpoint -qd /var/lib/docker/$dir) ]]; then
 				sudo mount --bind /run/media/$USER/docker/$dir /var/lib/docker/$dir
-				bb_crypter_stat "$dir directory is mounted"
+				bb_stat "$dir directory is mounted"
 			else
-				bb_crypter_stat "$dir directory is ready"
+				bb_stat "$dir directory is ready"
 			fi
 		done
 
 		sudo systemctl start docker &&
-		bb_crypter_stat "Docker service is ready"
+		bb_stat "Docker service is ready"
 		sleep 1
 
 		bb_crypter_stop "Docker volume crypto directory ready"
@@ -362,7 +359,7 @@ bb_crypter_game() {
 			if [[ ! -d $usrdir/$dir ]]; then
 				sudo mkdir $usrdir/$dir
 			fi
-			bb_crypter_stat "$dir directory is ready"
+			bb_stat "$dir directory is ready"
 		done
 		bb_crypter_accs $usrdir $mapper
 		bb_crypter_stop "File crypto directory ready"

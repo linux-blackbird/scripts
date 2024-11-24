@@ -4,39 +4,57 @@
 function update_mirr() {
 	rm -f mirrorlist-backup &&
 	if [[ -f /etc/pacman.d/mirrorlist ]];then
-		sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup 
+		sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup
+		bb_stat 'mirror backup successfull'
 	else
 		touch /etc/pacman.d/mirrorlist
+		bb_stat 'create mirror file'
 	fi
 	sudo reflector --country 'Indonesia,Singapore,Malaysia' --ipv4 --save /etc/pacman.d/mirrorlist
+	bb_stat 'load fastest mirror'
 }
 
+
 function update_main() {
+	bb_rbin_head "UPDATE MAIN PACKAGE"
+	bb_stat 'load fastest mirror'
 	yes Y | sudo pacman -Syuq &&
 	echo 'Update main package'
 	sudo rm -fr ~/.cache/*
 }
 
+
 function update_aurs() {
+	bb_rbin_head "UPDATE AURS PACKAGE"
 	yes y | yay -Syuq &&
-	echo 'Update community package'
 	rm -fr ~/.cache/*
+	bb_stat 'community package up to date'
 }
 
 
 function update_gits_rbin() {
+
+	bb_rbin_head "UPDATE SCRIPT PACKAGE"
+
 	if [[ -d  /usr/local/rbin ]];then
 		sudo rm -fr /usr/local/rbin
 	fi
 	sudo git clone -q https://github.com/blackbird-package/main-scripts.git /usr/local/rbin > /dev/null &&
-	echo 'Update rbin package'
+	bb_stat 'blackbird package up to date'
 
 	sudo mv -f /usr/local/rbin/profile /etc/profile
+	bb_stat 'profile updated'
+
 	sudo mv -f /usr/local/rbin/bashrc /etc/bash.bashrc
+	bb_stat 'bashrc updated'	
 }
 
+
 function update_gits_hypr() {
+	
 	if [[  $XDG_CURRENT_DESKTOP == "Hyprland" ]] ;then
+
+		bb_rbin_head "UPDATE HYPRLAND PACKAGE"
 
 		## update all main blackbird hyprland config 
 		config=( 'hypr' 'waybar' 'swaync' 'wofi' 'kitty' 'gtk-3.0' 'gtk-4.0' 'btop' 'mpd' )
@@ -45,12 +63,18 @@ function update_gits_hypr() {
 			if [[ -d  /tmp/$apps ]];then
 				sudo rm -fr /tmp/$apps
 			fi
-			sudo git clone https://github.com/blackbird-hyprland/config-$apps.git /tmp/$apps
+			bb_stat "$apps download directory cleaned"
+
+			sudo git clone -1 https://github.com/blackbird-hyprland/config-$apps.git /tmp/$apps
+			bb_stat "$apps downloaded"	
+
 			if [[ -d  /etc/skel/.config/$apps ]];then
 				sudo rm -fr /etc/skel/.config/$apps
+				bb_stat "$apps base config cleaned"	
 			fi
+			
 			sudo mv -f /tmp/$apps /etc/skel/.config
-			echo "$apps is up to date"
+			bb_stat "$apps installed"
 		done
 
 		## update all user blackbird hyprland config 
@@ -59,9 +83,12 @@ function update_gits_hypr() {
 		do
 			if [[ -d /home/$user/.config/$apps ]];then
 				sudo rm -fr /home/$user/.config/$apps
+				
 			fi
+			bb_stat "$apps user directory cleaned"
+
 			sudo cp -fr /etc/skel/.config/* /home/$user/.config/
-			echo "$users is up to date"
+			bb_stat "$user setting configured"
 		done
 	fi
 }
@@ -70,17 +97,23 @@ function update_gits_hypr() {
 function update_gits_gnom() {
 
 	if [[  $XDG_CURRENT_DESKTOP == "Gnome" ]] ;then	
-		echo 'gnome'
+		bb_rbin_head "UPDATE HYPRLAND PACKAGE"
 	fi
 }
-
 
 
 function update_gits() {
 	update_gits_rbin &&
 	update_gits_hypr &&
 	update_gits_gnom &&
-	echo 'git package updated'
+}
+
+function update_conf() {
+
+	bb_rbin_head "UPDATE MAIN CONFIG"
+
+	source /etc/profile &&
+	source /etc/bash.bashrc
 }
 
 
@@ -92,10 +125,10 @@ function update() {
 	if [[ $BLACKBIRD_UPDATE == "Y" || $BLACKBIRD_UPDATE == "y" ]];then
 		update_mirr &&
 		update_main &&
-		update_gits &&
 		update_aurs &&
-		source /etc/profile &&
-		source /etc/bash.bashrc
+		update_gits &&
+		update_conf &&
+		cleaner
 	fi
 }
 
@@ -105,14 +138,16 @@ function cleaner() {
 	bb_rbin_head "PACKAGE CLEANER"
 
     yes Y | sudo pacman -Scc > /dev/null 2>&1 &&
-    echo '  --> pacman package clean'
+    bb_stat 'pacman package clean'
+
     if [[ ! -z $(pacman -Qtdq) ]];then
         yes Y | sudo pacman -R $(pacman -Qtdq) > /dev/null 2>&1
-        echo '  --> unused package clean'
+        bb_stat 'unused package clean'
     fi
 
     yes Y | yay -Scc > /dev/null 2>&1 &&
-    echo '  --> pacman cache clean'
+    bb_stat 'pacman cache clean'
+
     yes Y | rm -fr $HOME/.cache/* > /dev/null 2>&1
-    echo '  --> user cache clean'
+    bb_stat 'user cache clean'
 }
