@@ -121,7 +121,6 @@ function update_gits() {
 function update_conf() {
 
 	bb_rbin_head "UPDATE MAIN CONFIG"
-
 	source /etc/profile &&
 	source /etc/bash.bashrc
 }
