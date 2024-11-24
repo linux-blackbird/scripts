@@ -36,9 +36,33 @@ function update_gits_rbin() {
 }
 
 function update_gits_hypr() {
+	if [[  $XDG_CURRENT_DESKTOP == "Hyprland" ]] ;then
 
-	if [[  $XDG_CURRENT_DESKTOP == "Hyprland" ]] ;then	
-		echo 'Hyprland'
+		## update all main blackbird hyprland config 
+		config=( 'hypr' 'waybar' 'swaync' 'wofi' 'kitty' 'gtk-3.0' 'gtk-4.0' 'btop' 'mpd' )
+		for apps in "${config[@]}"
+		do
+			if [[ -d  /tmp/$apps ]];then
+				sudo rm -fr /tmp/$apps
+			fi
+			sudo git clone https://github.com/blackbird-hyprland/config-$apps.git /tmp/$apps
+			if [[ -d  /etc/skel/.config/$apps ]];then
+				sudo rm -fr /etc/skel/.config/$apps
+			fi
+			sudo mv -f /tmp/$apps /etc/skel/.config
+			echo "$apps is up to date"
+		done
+
+		## update all user blackbird hyprland config 
+		users=$( ls /home )
+		for user in "${users[@]}"
+		do
+			if [[ -d /home/$user/.config/$apps ]];then
+				sudo rm -fr /home/$user/.config/$apps
+			fi
+			sudo cp -fr /etc/skel/.config/* /home/$user/.config/
+			echo "$users is up to date"
+		done
 	fi
 }
 
@@ -49,6 +73,7 @@ function update_gits_gnom() {
 		echo 'gnome'
 	fi
 }
+
 
 
 function update_gits() {
