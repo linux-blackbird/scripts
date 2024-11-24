@@ -3,13 +3,11 @@
 
 function update_mirr() {
 	rm -f mirrorlist-backup &&
-
 	if [[ -f /etc/pacman.d/mirrorlist ]];then
 		sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup 
 	else
 		touch /etc/pacman.d/mirrorlist
 	fi
-
 	sudo reflector --country 'Indonesia,Singapore,Malaysia' --ipv4 --save /etc/pacman.d/mirrorlist
 }
 
