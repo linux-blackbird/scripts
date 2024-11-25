@@ -58,7 +58,6 @@ function update_gits_hypr() {
 
 		## update all main blackbird hyprland config 
 		config=( 'hypr' 'waybar' 'swaync' 'wofi' 'kitty' 'gtk-3.0' 'gtk-4.0' 'btop' 'mpd' )
-
 		for apps in "${config[@]}"
 		do
 			## update for skel directory
