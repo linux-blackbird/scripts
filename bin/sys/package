@@ -63,8 +63,7 @@ function update_gits_hypr() {
 		do
 			## update for skel directory
 			git clone -q https://github.com/blackbird-hyprland/config-$apps.git /tmp/$apps
-			sudo rm -fr  /etc/skel/.config/$apps
-			sudo mv -f /tmp/$apps /etc/skel/.config/
+			sudo mv -f /tmp/$apps/* /etc/skel/.config/$apps
 			
 			bb_stat "$apps for skel configured"	
 		done
