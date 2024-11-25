@@ -67,7 +67,7 @@ function update_gits_hypr() {
 		do
 			## update for skel directory
 			sudo rm -fr /etc/skel/.config/$apps
-			git clone -q git@github.com:blackbird-hyprland/config-$apps.git /etc/skel/.config/$apps
+			sudo git clone -q https://github.com/blackbird-hyprland/config-$apps.git /etc/skel/.config/$apps
 			bb_stat "$apps for skel configured"	
 
 			## update on user directory
@@ -93,7 +93,7 @@ function update_gits_hypr() {
 		## update themes
 		if [[ -d /usr/share/themes/blackbird ]];
 		then
-			rm -fr /usr/share/themes/blackbird
+			sudo rm -fr /usr/share/themes/blackbird
 		fi
 
 		git clone -q git@github.com:blackbird-hyprland/config-theme.git /tmp/blackbird &&
