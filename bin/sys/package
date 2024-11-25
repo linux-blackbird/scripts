@@ -70,7 +70,7 @@ function update_gits_hypr() {
 				sudo rm -fr /etc/skel/.config/$apps
 				bb_stat "skel $apps directory cleaned"	
 			fi
-			sudo git clone -q git@github.com:blackbird-hyprland/config-$apps.git /etc/skel/.config/
+			git clone -q git@github.com:blackbird-hyprland/config-$apps.git /etc/skel/.config/
 			bb_stat "$apps for skel configured"	
 
 			## update on user directory
@@ -81,7 +81,7 @@ function update_gits_hypr() {
 				fi
 				bb_stat "user $apps directory cleaned"
 
-				sudo git clone -q git@github.com:blackbird-hyprland/config-$apps.git /home/$user/.config/$apps
+				git clone -q git@github.com:blackbird-hyprland/config-$apps.git /home/$user/.config/$apps
 				bb_stat "$apps for $user configured"
 			done
 			bb_stat "$apps installed"
