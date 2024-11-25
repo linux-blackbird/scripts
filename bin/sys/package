@@ -58,16 +58,13 @@ function update_gits_hypr() {
 
 		## update all main blackbird hyprland config 
 		config=( 'hypr' 'waybar' 'swaync' 'wofi' 'kitty' 'gtk-3.0' 'gtk-4.0' 'btop' 'mpd' )
+
 		for apps in "${config[@]}"
 		do
 			## update for skel directory
 			git clone -q https://github.com/blackbird-hyprland/config-$apps.git /tmp/$apps
-			if [[ $apps == "hypr" ]];then
-				sudo mv -f /tmp/hypr/hyprland.conf /etc/skel/.config/hypr/ &&
-				sudo mv -f /tmp/hypr/* /etc/skel/.config/hypr/ 
-			else
-				sudo mv -f /tmp/$apps /etc/skel/.config/
-			fi
+			sudo mv -f /tmp/$apps /etc/skel/.config/
+			sudo rm -fr /tmp/$apps
 			bb_stat "$apps for skel configured"	
 		done
 
@@ -75,7 +72,8 @@ function update_gits_hypr() {
 		users=$( ls /home )
 		for user in "${users[@]}"
 		do
-			cp -fr /etc/skel/.config/* /home/$user/.config/
+			cp -fr /etc/skel/.config/* /home/$user/.config/ &&
+			cat /etc/skel/.config/hypr/hyprland.conf > /home/$user/.config/hypr/hyprland.conf &&
 			bb_stat "$apps for $user configured"
 		done
 
