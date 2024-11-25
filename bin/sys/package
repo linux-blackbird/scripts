@@ -102,6 +102,11 @@ function update_gits_hypr() {
 			sudo cp -f $ast_path/wall2.png /usr/share/hypr/$img
 		done
 		bb_stat "assets setting configured"
+
+
+		## update themes
+		git clone -q git@github.com:blackbird-hyprland/config-theme.git /tmp/blackbird &&
+		sudo mv -f /tmp/blackbird /usr/share/themes
 	fi
 }
 
