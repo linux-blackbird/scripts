@@ -61,38 +61,32 @@ function update_gits_hypr() {
 
 		## update all main blackbird hyprland config 
 		config=( 'hypr' 'waybar' 'swaync' 'wofi' 'kitty' 'gtk-3.0' 'gtk-4.0' 'btop' 'mpd' )
+		users=$( ls /home )
+
 		for apps in "${config[@]}"
 		do
-			if [[ -d  /tmp/$apps ]];then
-				sudo rm -fr /tmp/$apps
-			fi
-			bb_stat "$apps download directory cleaned"
-
-			sudo git clone -q git@github.com:blackbird-hyprland/config-$apps.git /tmp/$apps
-			bb_stat "$apps downloaded"	
-
+			## update for skel directory
 			if [[ -d  /etc/skel/.config/$apps ]];then
 				sudo rm -fr /etc/skel/.config/$apps
-				bb_stat "$apps base config cleaned"	
+				bb_stat "skel $apps directory cleaned"	
 			fi
-			
-			sudo mv -f /tmp/$apps /etc/skel/.config
+			sudo git clone -q git@github.com:blackbird-hyprland/config-$apps.git /etc/skel/.config/
+			bb_stat "$apps for skel configured"	
+
+			## update on user directory
+			for user in "${users[@]}"
+			do
+				if [[ -d /home/$user/.config/$apps ]];then
+					sudo rm -fr /home/$user/.config/$apps
+				fi
+				bb_stat "user $apps directory cleaned"
+
+				sudo git clone -q git@github.com:blackbird-hyprland/config-$apps.git /home/$user/.config/$apps
+				bb_stat "$apps for $user configured"
+			done
 			bb_stat "$apps installed"
 		done
 
-		## update all user blackbird hyprland config 
-		users=$( ls /home )
-		for user in "${users[@]}"
-		do
-			if [[ -d /home/$user/.config/$apps ]];then
-				sudo rm -fr /home/$user/.config/$apps
-				
-			fi
-			bb_stat "$apps user directory cleaned"
-
-			sudo cp -fr /etc/skel/.config/* /home/$user/.config/
-			bb_stat "$user setting configured"
-		done
 
 		## update wallpapper
 		wallid=( "wall0.png" "wall1.png" "wall2.png" )
