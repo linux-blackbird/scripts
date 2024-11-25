@@ -45,7 +45,7 @@ function update_gits_rbin() {
 	sudo mv /tmp/rbin /usr/local/rbin &&
 	bb_stat 'blackbird package up to date'
 
-	sudo mv -f /usr/local/rbin/profile /etc/profile
+	sudo mv -f /usr/local/rbin/etc/profile /etc/profile
 	bb_stat 'profile updated'
 
 	sudo mv -f /usr/local/rbin/bashrc /etc/bash.bashrc
@@ -61,7 +61,6 @@ function update_gits_hypr() {
 
 		## update all main blackbird hyprland config 
 		config=( 'hypr' 'waybar' 'swaync' 'wofi' 'kitty' 'gtk-3.0' 'gtk-4.0' 'btop' 'mpd' )
-		users=$( ls /home )
 
 		for apps in "${config[@]}"
 		do
@@ -69,16 +68,15 @@ function update_gits_hypr() {
 			sudo rm -fr /etc/skel/.config/$apps
 			git clone -q https://github.com/blackbird-hyprland/config-$apps.git /tmp/$apps
 			sudo mv -f /tmp/$apps /etc/skel/.config/$apps
-			sudo rm -fr /tmp/$apps
 			bb_stat "$apps for skel configured"	
+		done
 
-			## update on user directory
-			for user in "${users[@]}"
-			do
-				sudo rm -fr /home/$user/.config/$apps
-				git clone -q git@github.com:blackbird-hyprland/config-$apps.git /home/$user/.config/$apps
-				bb_stat "$apps for $user configured"
-			done
+		## update on user directory
+		users=$( ls /home )
+		for user in "${users[@]}"
+		do
+			cp -fr /etc/skel/.config/* /home/$user/.config/$apps
+			bb_stat "$apps for $user configured"
 		done
 
 
@@ -93,12 +91,7 @@ function update_gits_hypr() {
 
 
 		## update themes
-		if [[ -d /usr/share/themes/blackbird ]];
-		then
-			sudo rm -fr /usr/share/themes/blackbird
-		fi
-		sudo rm -fr /tmp/blackbird
-
+		sudo rm -fr /usr/share/themes/blackbird
 		git clone -q git@github.com:blackbird-hyprland/config-theme.git /tmp/blackbird &&
 		sudo mv -f /tmp/blackbird /usr/share/themes
 	fi
