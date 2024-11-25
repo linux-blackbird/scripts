@@ -37,9 +37,9 @@ function update_gits_rbin() {
 
 	bb_rbin_head "UPDATE SCRIPT PACKAGE"
 
-	git clone -q https://github.com/blackbird-package/main-scripts.git /tmp/rbin
-	sudo mv /tmp/rbin /usr/local/rbin &&
-	sudo rm -fr /tmp/rbin
+	git clone -q https://github.com/blackbird-package/main-scripts.git /tmp/rbin &&
+	sudo rm -fr /usr/local/rbin
+	sudo mv /tmp/rbin /usr/local/
 	bb_stat 'blackbird package up to date'
 
 	sudo mv -f /usr/local/rbin/etc/profile /etc/profile
@@ -64,7 +64,7 @@ function update_gits_hypr() {
 			## update for skel directory
 			git clone -q https://github.com/blackbird-hyprland/config-$apps.git /tmp/$apps
 			sudo mv -f /tmp/$apps /etc/skel/.config/
-			sudo rm /tmp/$apps
+			sudo rm -fr /tmp/$apps
 			bb_stat "$apps for skel configured"	
 		done
 
@@ -88,15 +88,14 @@ function update_gits_hypr() {
 
 
 		## update themes
-		sudo rm -fr /usr/share/themes/blackbird
 		git clone -q git@github.com:blackbird-hyprland/config-theme.git /tmp/blackbird &&
+		sudo rm -fr /usr/share/themes/blackbird
 		sudo mv -f /tmp/blackbird /usr/share/themes
 	fi
 }
 
 
 function update_gits_gnom() {
-
 	if [[  $XDG_CURRENT_DESKTOP == "Gnome" ]] ;then	
 		bb_rbin_head "UPDATE HYPRLAND PACKAGE"
 	fi
