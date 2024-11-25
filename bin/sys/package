@@ -42,7 +42,7 @@ function update_gits_rbin() {
 	fi
 	git clone -q https://github.com/blackbird-package/main-scripts.git /tmp/rbin
 	
-	sudo mv /tmp/rbin /usr/local/rbin > /dev/null &&
+	sudo mv /tmp/rbin /usr/local/rbin &&
 	bb_stat 'blackbird package up to date'
 
 	sudo mv -f /usr/local/rbin/profile /etc/profile
