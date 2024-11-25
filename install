@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+if [[ -d /usr/local/rbin ]];
+then
+    sudo rm -fr rbin
+fi
+
+
+sudo git clone git@github.com:blackbird-package/main-scripts.git /usr/local/rbin
+
+
+sudo cp -f $(pwd)/cfg/bash.bashrc /etc/ &&
+sudo cp -f $(pwd)/cfg/profile /etc &&
+

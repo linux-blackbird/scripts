@@ -1,0 +1,3 @@
+## blackbird /etc/bashrc
+
+source /usr/local/rbin/bashrc
