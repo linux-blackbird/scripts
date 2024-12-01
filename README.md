@@ -1,2 +1,2 @@
-# rbin
-yuros rbin
+# setup  
+blackbird installation system
