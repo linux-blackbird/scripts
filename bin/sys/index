@@ -1,9 +1,0 @@
-#!/bin/bash
-
-sys_path=$bin_path/sys
-
-source $sys_path/auxiler
-source $sys_path/based
-source $sys_path/crypter
-source $sys_path/package
-source $sys_path/network

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+STATUS=$(sysctl -q -n kernel.unprivileged_userns_clone | grep 0 )
+echo $STATUS;
+
+if [[ $STATUS == 0 ]];then
+    sudo -A sysctl kernel.unprivileged_userns_clone=1 
+fi
+
+if [[ $(podman-desktop %U) ]]; then
+    echo "Application exited successfully."
+    sudo -A sysctl kernel.unprivileged_userns_clone=0 
+else
+    echo "Application failed with exit code: $?"
+    exit 1  # Exit the script with an error code
+fi

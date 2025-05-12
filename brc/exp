@@ -1,4 +1,0 @@
-#!/bin/bash
-
-## export PATH="~/.local/bin:$PATH"
-export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local}/gnupg"
